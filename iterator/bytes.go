@@ -61,6 +61,9 @@ func (b bytesIterable[E]) Size() (n uint64, known bool) {
 	return uint64(b.len / b.elemSz), true
 }
 
+// BytesIterator returns an Iterator[E] that iterates sizeof(E) elements sequentially from the given []byte.
+// Note that, BytesIterator[rune] does not iterate elements decoded in utf-8 rune.
+// For that case, you should use BytesRuneIterator.
 func BytesIterator[E comparable, BS ~[]byte](bytes BS) Iterator[E] {
 	if len(bytes) == 0 {
 		return EmptyIterator[E]{}
@@ -76,6 +79,9 @@ func BytesIterator[E comparable, BS ~[]byte](bytes BS) Iterator[E] {
 	}
 }
 
+// StringIterator returns an Iterator[E] that iterates sizeof(E) elements sequentially from the given string.
+// Note that, StringIterator[rune] does not iterate elements decoded in utf-8 rune.
+// For that case, you should use StringRuneIterator.
 func StringIterator[E comparable](str string) Iterator[E] {
 	strH := *(*reflect.SliceHeader)(unsafe.Pointer(&str))
 	var e E
