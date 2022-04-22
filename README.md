@@ -52,7 +52,7 @@ operations including **Map** and **FlatMap** as functions.
 
 For more details about Gostream, you should check at [pkg.go.dev](https://pkg.go.dev/github.com/not2dim/gostream/).
 
-### Example 1: basic Stream operations
+### Example 1: Basic Stream operations
 
 ```go
 func Example1() {
@@ -99,7 +99,7 @@ func Example3() {
 }
 ```
 
-### Example 4: Map a Stream to another
+### Example 4: Map and Joining
 
 ```go
 func Example4() {
@@ -135,5 +135,19 @@ func Example5() {
     counts := stream.Counting(words)
     fmt.Println(counts)
     // map[apple:7 banana:3 cherry:5 elderberry:1 fig:2 ham:6 tomato:10]
+}
+```
+
+### Example 6: Iterate rune and Joining
+
+```go
+func Example6() {
+    var emojis = "😀😃😄😁😆😅😂😊😇🙂🙃"
+    itera := iterator.StringRuneIterable(emojis)
+    joined := stream.Joining(
+        stream.Iterable(itera),
+        "➔", uint64(len(emojis)*2),
+    )
+    fmt.Println(joined) // 😀➔😃➔😄➔😁➔😆➔😅➔😂➔😊➔😇➔🙂➔🙃
 }
 ```
