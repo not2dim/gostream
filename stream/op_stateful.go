@@ -113,7 +113,9 @@ type condSink[E any] struct {
 
 func (c *condSink[E]) Accept(v any) {
 	c.rejecting = c.rejecting || c.cond(v.(E))
-	c.down.Accept(v)
+	if !c.rejecting {
+		c.down.Accept(v)
+	}
 }
 
 func (c *condSink[E]) Rejecting() bool {

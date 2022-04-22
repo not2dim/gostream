@@ -63,6 +63,21 @@ func TestStreamPeek(t *testing.T) {
 	}
 }
 
+func TestStreamCond(t *testing.T) {
+	var progress = 0.0
+	stm := Of[float64](0.1, 0.1, 0.12, 0.2, 0.1, 0.09, 0, 0.2, 0.1, 0.1)
+	days := stm.Cond(func(step float64) bool {
+		if progress >= 1.0 {
+			return true
+		}
+		progress += step
+		return false
+	}).Count()
+	if days != 9 {
+		t.Fail()
+	}
+}
+
 func TestStreamDistinct(t *testing.T) {
 	stm := Of(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
 	if stm.Distinct().Count() != stm.Count() {

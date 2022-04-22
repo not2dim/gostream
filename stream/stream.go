@@ -15,6 +15,7 @@ type Stream[E any] interface {
 	// Peek applies the provided func act to every element.
 	Peek(act func(v E)) Stream[E]
 	// Cond applies the provided func cond to each iterated element until cond(v) returns true.
+	// Note that the last v letting cond(v) true does not flow into the next Stream.
 	Cond(cond func(v E) bool) Stream[E]
 	// Distinct filters duplicate elements according to builtin ==.
 	Distinct() Stream[E]

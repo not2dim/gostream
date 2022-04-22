@@ -89,10 +89,10 @@ func Example3() {
     cnt, lmt := 0, 3
     slc := stream.Of[any](1, "a", (*int)(nil), []byte{}, 0.6, 1+2i, '😔').
         Cond(func (e any) bool {
-            cnt++
             if cnt >= lmt {
                 return true
             }
+            cnt++
             return false
         }).Collect()
     fmt.Println(slc) // [1 a <nil>]
